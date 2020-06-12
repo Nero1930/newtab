@@ -1,0 +1,15 @@
+{
+    "manifest_version": 2,
+    "name": "myNewTab",
+    "description": "a extension to replace your newtab page",
+    "version": "0.1",
+    "browser_action": {
+        "default_icon": {
+            "19": "favicon.png"
+        },
+        "default_title": "my new tab"
+    },
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    }
+}
