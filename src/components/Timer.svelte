@@ -1,7 +1,7 @@
 
 <script>
     let status = '开始工作'
-    const m_seconds = 6 * 1000
+    const m_seconds = 60 * 1000
 
     function setColor(color) {
         const border = `5px solid ${color}`;

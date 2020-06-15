@@ -2,7 +2,7 @@
 ## what is it
 a extension for chrome, replace your new tab page
 ## how to use?
-just drag the ***public***  folder to chrome window
+just open 'chrome://extensions' page and drag the ***public***  folder to chrome window
 ## if u want to improve it?
 ```bash
 # first
