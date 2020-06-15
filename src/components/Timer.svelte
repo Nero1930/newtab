@@ -85,7 +85,7 @@
     }
     .circle_process{
         position: relative;
-        margin: auto;
+        margin: 30px auto 0;
         width: 199px;
         height : 200px;
         background: rgba(255,255,255, .4);

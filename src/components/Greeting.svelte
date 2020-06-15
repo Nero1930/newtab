@@ -39,7 +39,7 @@ onMount(()=>{
 })
 </script>
 {#if name}
-<h1 on:click={updateName}>{greeting()}, {name}</h1>
+<div class="greeting" on:click={updateName}>{greeting()}, {name}</div>
 {/if}
 
 <div class="word">
@@ -52,7 +52,7 @@ onMount(()=>{
 </div>
 
 <style lang="scss">
-h1 {
+.greeting {
     color: #ff3e00;
     text-transform: uppercase;
     font-size: 4em;
