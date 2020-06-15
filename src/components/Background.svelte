@@ -43,7 +43,7 @@
             }
         }
     }
-    onMount(getPic)
+    onMount(()=>getPic())
 </script>
 <img class="background" {src} alt="图片加载中..." />
 <div class="mask"></div>
@@ -57,7 +57,7 @@
         width: 100vw;
         height: 100vh;
         background-size: cover;
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         z-index: -2;
