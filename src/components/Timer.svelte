@@ -1,8 +1,19 @@
 
 <script>
-    let status = '开始工作'
-    const m_seconds = 60 * 1000
+    import { onMount, onDestroy } from 'svelte';
+    import { workStatus } from '../config/enum'
+    import Notify from '../utils/notification'
 
+    let status = +localStorage.status || 0
+    const m_seconds = 60 * 10
+
+    const notify = new Notify()
+    if (window.Notification.permision !== 'granted') {
+        notify.getPermision()
+    }
+    onMount(() => {
+        if (status % 2 === 1) timer()
+    })
     function setColor(color) {
         const border = `5px solid ${color}`;
         const right = document.querySelector('.circle_process .rightcircle')
@@ -12,24 +23,43 @@
         left.style.setProperty('border-left', border)
         left.style.setProperty('border-bottom', border)
     }
-    function start(time, color) {
+    function start(time) {
+        if (localStorage.timeId) {
+            clearInterval(localStorage.timeId)
+            localStorage.timeId = null
+        }
         let timeId = null;
-        const startTime = new Date().valueOf()
+        const startTime = localStorage.startTime || new Date().valueOf()
+        localStorage.startTime = startTime
         const right = document.querySelector('.circle_process .rightcircle')
         const left = document.querySelector('.circle_process .leftcircle')
-        if (color) setColor(color);
         function step() {
             // 还是50毫秒刷一帧吧
-            let span = new Date().valueOf()
-            if (span - startTime > time) clearInterval(timeId)
-            const deg = (span - startTime) / time * 360
+            let now = new Date().valueOf()
+            if (now - startTime > time) {
+                clearInterval(timeId)
+                status = status === 3 ? 0 : status + 1
+                localStorage.status = status
+                localStorage.startTime = ''
+                notify.popNotify({
+                    title: '计时结束',
+                    body: `是时候开始${workStatus[status]}了！`,
+                    icon: 'https://www.dogedoge.com/assets/new_logo_header.min.png',
+                    callback: function () {
+                        console.log('朕知道了')
+                    }
+                })
+            }
+            const deg = (now - startTime) / time * 360
             if (deg <= 180) {
                 right.style.setProperty('-webkit-transform', `rotate(${deg - 135}deg)`);
             } else if(deg <= 360 && deg > 180) {
+                right.style.setProperty('-webkit-transform', `rotate(45deg)`);
                 left.style.setProperty('-webkit-transform', `rotate(${deg + 45}deg)`);
             }
         }
         timeId = window.setInterval(step, 50)
+        localStorage.timeId = timeId
     }
     function reset() {
         const right = document.querySelector('.circle_process .rightcircle')
@@ -38,25 +68,20 @@
         left.style.setProperty('-webkit-transform', 'rotate(-135deg)')
     }
     function timer() {
-        reset()
-        if (status === '开始工作') {
-            const time = 30 * m_seconds
-            status = '工作中...'
-            start(time, '#ff3e00')
-            setTimeout(()=>{
-                status = '开始休息'
-            }, time)
-        } else if (status === '开始休息') {
-            const time = 5 * m_seconds
-            status = '休息中...'
-            start(time, 'aquamarine')
-            setTimeout(()=>{
-                status = '开始工作'
-            }, time)
-        } else return
+        const time = status < 2 ? 30 * m_seconds : 5 * m_seconds
+        const color = status < 2 ? '#ff3e00' : 'aquamarine'
+        setColor(color)
+        start(time)
+        if (status === 0) {
+            status = 1
+            reset()
+            localStorage.status = status
+        } else if (status === 2) {
+            status = 3
+            reset()
+            localStorage.status = status
+        }
     }
-    window.start = start
-    window.reset = reset
 </script>
 <div class="circle_process">
     <div class="wrapper right">
@@ -65,7 +90,7 @@
     <div class="wrapper left">
         <div class="circle leftcircle"></div>
     </div>
-    <div class="btn" on:click={timer}>{status}</div>
+    <div class="btn" on:click={timer}>{workStatus[status]}</div>
 </div>
 
 <style>
