@@ -1,7 +1,17 @@
 <script>
+import { searchStore } from '../model/store'
+import { options } from '../config/enum'
 let keyword = '';
+let searchPrefix = options[0].value
+
+searchStore.subscribe(newVal => {
+    for (let option of options) {
+        if (option.label === newVal)
+            searchPrefix = option.value
+    }
+})
 function search() {
-    const link = `https://www.dogedoge.com/results?q=${keyword}`
+    const link = `https://${searchPrefix}${keyword}`
     window && window.open(link)
 }
 function press(e) {
@@ -42,7 +52,7 @@ function press(e) {
             right: calc(25% + 5px);
             position: absolute;
             top: 2px;
-            background: url('./search.svg');
+            background: url('./icon-search.svg');
             background-repeat: no-repeat;
             background-size: cover;
             &:hover {

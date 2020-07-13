@@ -23,7 +23,11 @@
   },
   "dependencies": {
     "node-fetch": "^2.6.0",
+    "pexels": "^1.0.1",
+    "require": "^2.4.20",
+    "rollup-plugin-typescript2": "^0.27.1",
     "sirv-cli": "^0.4.4",
+    "typescript": "^3.9.6",
     "unsplash-js": "^6.0.0"
   }
 }

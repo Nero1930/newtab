@@ -5,7 +5,7 @@
     import Notify from '../utils/notification'
 
     let status = +localStorage.status || 0
-    const m_seconds = 60 * 10
+    const m_seconds = 60 * 1000
 
     const notify = new Notify()
     if (window.Notification.permision !== 'granted') {
@@ -41,10 +41,11 @@
                 status = status === 3 ? 0 : status + 1
                 localStorage.status = status
                 localStorage.startTime = ''
+                let icon = status === 0 ? './cool.png' : './sleeping.png'
                 notify.popNotify({
                     title: '计时结束',
                     body: `是时候开始${workStatus[status]}了！`,
-                    icon: 'https://www.dogedoge.com/assets/new_logo_header.min.png',
+                    icon,
                     callback: function () {
                         console.log('朕知道了')
                     }

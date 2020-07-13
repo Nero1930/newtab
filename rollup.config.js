@@ -2,7 +2,9 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
+import {
+	terser
+} from 'rollup-plugin-terser';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 import sveltePreprocess from 'svelte-preprocess';
 // import font from "rollup-plugin-font";
@@ -11,12 +13,12 @@ const production = !process.env.ROLLUP_WATCH;
 
 const preprocess = sveltePreprocess({
 	scss: {
-	  includePaths: ['src'],
+		includePaths: ['src'],
 	},
 	postcss: {
-	  plugins: [require('autoprefixer')],
+		plugins: [require('autoprefixer')],
 	},
-  });
+});
 
 export default {
 	input: 'src/main.js',
@@ -61,7 +63,7 @@ export default {
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
 		production && terser(),
-        nodePolyfills()
+		nodePolyfills()
 	],
 	watch: {
 		clearScreen: false

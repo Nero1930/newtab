@@ -2,7 +2,8 @@
     import Background from './components/Background.svelte'
     import Greeting from './components/Greeting.svelte'
     import Search from './components/Search.svelte'
-    import Timer from './components/Timer.svelte'
+	import Timer from './components/Timer.svelte'
+	import Setting from './components/Setting.svelte'
 </script>
 
 <main>
@@ -10,6 +11,7 @@
     <Greeting />
     <Timer />
     <Search />
+	<Setting />
 </main>
 
 <style>

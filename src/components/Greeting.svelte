@@ -1,7 +1,13 @@
 <script>
 import { onMount } from 'svelte';
+import { categoryStore } from '../model/store'
+
 let name  = localStorage && localStorage.getItem('name');
 let inputName = '';
+let categoryList = []
+categoryStore.subscribe(newVal => {
+    categoryList = newVal
+})
 function greeting() {
     const time = new Date();
     if (time.getHours() >= 12 && time.getHours() < 18) {
@@ -27,7 +33,16 @@ function updateName() {
     }
 }
 async function getWord() {
-    const res = await fetch('https://v1.hitokoto.cn/');
+    let category = ''
+    if (localStorage.categoryList) {
+        categoryList = JSON.parse(localStorage.categoryList)
+    }
+    if (categoryList.length) {
+        category = categoryList.reduce((acc, curr) => {
+            return acc += `&c=${curr}`
+        }, '')
+    }
+    const res = await fetch(`https://v1.hitokoto.cn/?${category ? category : ''}`);
     const data = await res.json();
     const { hitokoto, from } = data;
     return {
@@ -54,7 +69,7 @@ onMount(()=>{
 <style lang="scss">
 .greeting {
     color: #ff3e00;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-size: 4em;
     font-weight: 600;
     padding-top: 40px;
