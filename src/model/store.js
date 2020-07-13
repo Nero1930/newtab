@@ -5,7 +5,7 @@ import {
     options
 } from '../config/enum'
 
-const srcStore = writable('./default.jpeg')
+const srcStore = writable('./default.jpg')
 const blurStore = writable(0)
 const searchStore = writable(options[0].label)
 const categoryStore = writable('')

@@ -1,6 +1,6 @@
 <script>
     import { srcStore, blurStore } from '../model/store'
-    let src = './default.jpeg'
+    let src = './default.jpg'
     let blur = 0
     srcStore.subscribe(newVal => src = newVal)
     blurStore.subscribe(newVal => blur = newVal)

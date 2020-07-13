@@ -47,19 +47,19 @@
                     })
                     res = await client.photos.curated({ per_page: 1 })
                 } else {
-                    res = await client.photos.search({ query, per_page: 1, orientation: 'horizontal' })
+                    res = await client.photos.search({ query, per_page: 20, orientation: 'horizontal' })
                 }
                 localStorage.query = query
                 const photos = res.photos
                 if (photos && photos.length) {
                     localStorage.setItem('res', JSON.stringify(photos))
-                    const index = 0 // Math.floor(Math.random() * (photos.length - 1))
+                    const index = Math.floor(Math.random() * (photos.length - 1))
                     src = photos[index].src.landscape
                     srcStore.set(src)
                 }
             } catch (e) {
                 if (e)
-                    src = sessionStorage.getItem('customPicture') || './default.jpeg'
+                    src = sessionStorage.getItem('customPicture') || './default.jpg'
                     srcStore.set(src)
             }
         }
@@ -72,7 +72,7 @@
         if (file && file.type && file.type.includes && file.type.includes('image')) {
             const reader = new FileReader()
             reader.onload = (e) => {
-                src = e.target.result || './default.jpeg'
+                src = e.target.result || './default.jpg'
                 srcStore.set(src)
                 sessionStorage.setItem('customPicture', src)
             }
@@ -114,6 +114,7 @@
     <div class="pannel">
         <div class="setting-item">
             <label>图片关键词</label>
+            <span class="info">(图片服务可能会卡顿,等会就好啦)</span>
             <input bind:value={query} required on:change={(e)=>cacheDisable=true}>
             <button class="searchBtn" on:click={getPic(cacheDisable)}>换张图片</button>
         </div>
@@ -172,6 +173,10 @@
             padding: 20px;
             text-align: left;
 
+            .info {
+                color: #666;
+                font-size: 14px;
+            }
             .setting-item {
                 position: relative;
                 margin: 20px 0;
