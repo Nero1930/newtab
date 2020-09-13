@@ -22,7 +22,7 @@
     "svelte-preprocess": "^3.9.7"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "pexels": "^1.0.1",
     "require": "^2.4.20",
     "rollup-plugin-typescript2": "^0.27.1",
